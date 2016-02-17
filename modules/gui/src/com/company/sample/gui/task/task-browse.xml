@@ -35,7 +35,7 @@
                 <column id="assignee"
                         ext:index="0"
                         width="150px"/>
-                <column id="description"/>
+                <column id="description" maxTextLength="100"/>
             </columns>
             <rows datasource="tasksDs"/>
             <rowsCount/>

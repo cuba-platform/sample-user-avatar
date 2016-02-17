@@ -10,7 +10,7 @@
                 <column id="image"
                         caption="msg://userImage"
                         ext:index="0"
-                        width="100px"/>
+                        width="130px"/>
             </columns>
         </groupTable>
     </layout>
