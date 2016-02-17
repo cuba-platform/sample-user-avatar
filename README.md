@@ -1,6 +1,6 @@
 # User Avatars
 
-This is a showcase application which demonstrates how to add pictures to system users.
+This is a showcase application that demonstrates how to add pictures to system users.
 
 * The `UserExt` entity extends the `User` entity defined in the platform. We have added the `image` attribute which is a reference to the `FileDescriptor` entity. So user avatars will be stored in `FileStorage`.
 * The `Task` entity is a sample domain entity which has the link to a user.
