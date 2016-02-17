@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             version="2.0">
+    <persistence-unit name="user_avatar_sample"
+                      transaction-type="RESOURCE_LOCAL">
+        <class>com.company.sample.entity.UserExt</class>
+        <class>com.company.sample.entity.Task</class>
+    </persistence-unit>
+</persistence>

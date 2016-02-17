@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        class="com.company.sample.gui.user.UserExtEditor"
+        extends="/com/haulmont/cuba/gui/app/security/user/edit/user-edit.xml"
+        messagesPack="com.company.sample.gui.user">
+    <layout>
+        <groupBox id="propertiesBox">
+            <grid id="propertiesGrid">
+                <columns>
+                    <column/>
+                </columns>
+                <rows>
+                    <row id="propertiesRow">
+                        <vbox spacing="true"
+                              width="AUTO">
+                            <groupBox id="userImageBox"
+                                      caption="msg://userImage">
+                                <embedded id="userImage"
+                                          height="250px"
+                                          type="IMAGE"
+                                          width="250px"/>
+                            </groupBox>
+                            <upload id="userImageUpload"
+                                    align="MIDDLE_CENTER"/>
+                        </vbox>
+                    </row>
+                </rows>
+            </grid>
+        </groupBox>
+    </layout>
+</window>

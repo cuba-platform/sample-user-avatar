@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
+    <view class="com.company.sample.entity.UserExt"
+          extends="user.edit"
+          name="user.edit">
+        <property name="image"
+                  view="_local"/>
+    </view>
+    <view class="com.company.sample.entity.UserExt"
+          extends="user.browse"
+          name="user.browse">
+        <property name="image"
+                  view="_local"/>
+    </view>
+    <view class="com.company.sample.entity.Task"
+          name="task-view">
+        <property name="name"/>
+        <property name="description"/>
+        <property name="assignee">
+            <property name="image">
+                <property name="name"/>
+                <property name="createDate"/>
+                <property name="extension"/>
+            </property>
+            <property name="login"/>
+            <property name="name"/>
+        </property>
+    </view>
+</views>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        class="com.company.sample.gui.user.UserExtBrowser"
+        extends="/com/haulmont/cuba/gui/app/security/user/browse/user-browse.xml"
+        messagesPack="com.company.sample.gui.user"
+        xmlns:ext="http://schemas.haulmont.com/cuba/window-ext.xsd">
+    <layout spacing="false">
+        <groupTable id="usersTable">
+            <columns>
+                <column id="image"
+                        caption="msg://userImage"
+                        ext:index="0"
+                        width="100px"/>
+            </columns>
+        </groupTable>
+    </layout>
+</window>
