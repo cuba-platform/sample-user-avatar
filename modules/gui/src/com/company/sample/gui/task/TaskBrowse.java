@@ -14,10 +14,10 @@ import java.util.Map;
 public class TaskBrowse extends AbstractLookup {
 
     @Inject
-    protected Table<Task> tasksTable;
+    private Table<Task> tasksTable;
 
     @Inject
-    protected ComponentsFactory componentsFactory;
+    private ComponentsFactory componentsFactory;
 
     @Override
     public void init(Map<String, Object> params) {

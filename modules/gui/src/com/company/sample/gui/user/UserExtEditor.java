@@ -16,13 +16,13 @@ import java.util.Map;
 public class UserExtEditor extends UserEditor {
 
     @Inject
-    protected FileUploadField userImageUpload;
+    private FileUploadField userImageUpload;
 
     @Inject
-    protected FileUploadingAPI fileUploadingAPI;
+    private FileUploadingAPI fileUploadingAPI;
 
     @Inject
-    protected Embedded userImage;
+    private Embedded userImage;
 
     @Override
     public void init(Map<String, Object> params) {
