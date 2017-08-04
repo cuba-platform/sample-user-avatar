@@ -31,7 +31,7 @@ import com.haulmont.cuba.security.entity.User;
 public class UserExt extends User {
     private static final long serialVersionUID = -3626377402339556105L;
 
-    @OnDelete(DeletePolicy.UNLINK)
+    @OnDelete(DeletePolicy.CASCADE)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "IMAGE_ID")
     protected FileDescriptor image;

@@ -16,6 +16,8 @@
 
 package com.company.sample.gui.task;
 
+import com.company.sample.gui.user.UserExtBrowser;
+import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.xml.layout.ComponentsFactory;
 import com.company.sample.entity.Task;
@@ -40,7 +42,12 @@ public class TaskBrowse extends AbstractLookup {
             image.setWidth("25px");
             image.setHeight("25px");
 
-            image.setDatasource(tasksTable.getItemDatasource(task), "assignee.image");
+            FileDescriptor userImageFile = task.getAssignee().getImage();
+            if (userImageFile == null) {
+                image.setSource(ClasspathResource.class).setPath(UserExtBrowser.DEFAULT_USER_IMAGE_PATH);
+            } else {
+                image.setSource(FileDescriptorResource.class).setFileDescriptor(userImageFile);
+            }
 
             Label userLogin = componentsFactory.createComponent(Label.class);
             userLogin.setValue(task.getAssignee().getLogin());

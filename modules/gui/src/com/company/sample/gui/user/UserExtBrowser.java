@@ -16,15 +16,17 @@
 
 package com.company.sample.gui.user;
 
+import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.gui.app.security.user.browse.UserBrowser;
-import com.haulmont.cuba.gui.components.Image;
-import com.haulmont.cuba.gui.components.Table;
+import com.haulmont.cuba.gui.components.*;
 import com.company.sample.entity.UserExt;
 
 import javax.inject.Inject;
 import java.util.Map;
 
 public class UserExtBrowser extends UserBrowser {
+
+    public static final String DEFAULT_USER_IMAGE_PATH = "/com/company/sample/gui/user/default-avatar.jpg";
 
     @Inject
     protected Table<UserExt> usersTable;
@@ -39,7 +41,12 @@ public class UserExtBrowser extends UserBrowser {
             image.setWidth("25px");
             image.setHeight("25px");
 
-            image.setDatasource(usersTable.getItemDatasource(user), "image");
+            FileDescriptor userImageFile = user.getImage();
+            if (userImageFile == null) {
+                image.setSource(ClasspathResource.class).setPath(UserExtBrowser.DEFAULT_USER_IMAGE_PATH);
+            } else {
+                image.setSource(FileDescriptorResource.class).setFileDescriptor(userImageFile);
+            }
 
             return image;
         });

@@ -18,9 +18,7 @@ package com.company.sample.gui.user;
 
 import com.company.sample.entity.UserExt;
 import com.haulmont.cuba.core.entity.FileDescriptor;
-import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.FileStorageException;
-import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.app.security.user.edit.UserEditor;
 import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.upload.FileUploadingAPI;
@@ -37,12 +35,7 @@ public class UserExtEditor extends UserEditor {
     private FileUploadingAPI fileUploadingAPI;
 
     @Inject
-    private DataManager dataManager;
-
-    @Inject
     private Image userImage;
-
-    private static final String DEFAULT_IMAGE_NAME = "default-avatar.jpg";
 
     @Override
     public void init(Map<String, Object> params) {
@@ -57,6 +50,8 @@ public class UserExtEditor extends UserEditor {
             FileDescriptor committedImage = dataSupplier.commit(fd);
             userImage.setSource(FileDescriptorResource.class).setFileDescriptor(committedImage);
 
+            ((UserExt) getItem()).setImage(committedImage);
+
             showNotification(formatMessage(getMessage("uploadSuccessMessage"), userImageUpload.getFileName()),
                     NotificationType.HUMANIZED);
         });
@@ -65,23 +60,14 @@ public class UserExtEditor extends UserEditor {
     }
 
     @Override
-    protected boolean preCommit() {
-        FileDescriptor descriptor = ((FileDescriptorResource) userImage.getSource()).getFileDescriptor();
-        ((UserExt) getItem()).setImage(descriptor);
-        return super.preCommit();
-    }
-
-    @Override
     protected void postInit() {
         super.postInit();
 
         FileDescriptor userImageFile = ((UserExt) getItem()).getImage();
         if (userImageFile == null) {
-            LoadContext<FileDescriptor> loadContext = LoadContext.create(FileDescriptor.class)
-                    .setQuery(LoadContext.createQuery("select e from sys$FileDescriptor e where e.name = :name")
-                            .setParameter("name", DEFAULT_IMAGE_NAME));
-            userImageFile = dataManager.load(loadContext);
+            userImage.setSource(ClasspathResource.class).setPath(UserExtBrowser.DEFAULT_USER_IMAGE_PATH);
+        } else {
+            userImage.setSource(FileDescriptorResource.class).setFileDescriptor(userImageFile);
         }
-        userImage.setSource(FileDescriptorResource.class).setFileDescriptor(userImageFile);
     }
 }

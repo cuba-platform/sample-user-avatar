@@ -18,7 +18,6 @@ def globalModule = project(':app-global')
 def coreModule = project(':app-core')
 def guiModule = project(':app-gui')
 def webModule = project(':app-web')
-def webThemesModule = project(':app-web-themes')
 
 def servletApi = 'org.apache.tomcat:tomcat-servlet-api:8.0.26'
 
@@ -188,39 +187,9 @@ configure(webModule) {
         }
     }
 
-    task copyImage(type: Copy) {
-        from 'themes/halo/images/default-avatar.jpg'
-        into "$cuba.tomcat.dir/work/app-core/filestorage/2017/08/04"
-        rename 'default-avatar.jpg', 'a2ba9e37-9f05-3ee3-4041-e838d505415c.jpg'
-    }
-
-    task deploy(dependsOn: [assemble, cleanConf, copyImage], type: CubaDeployment) {
+    task deploy(dependsOn: [assemble, cleanConf], type: CubaDeployment) {
         appName = 'app'
         appJars('app-global', 'app-gui', 'app-web')
-    }
-    task buildScssThemes(type: CubaWebScssThemeCreation)
-    task deployThemes(type: CubaDeployThemeTask, dependsOn: buildScssThemes)
-    assemble.dependsOn buildScssThemes
-}
-
-configure(webThemesModule) {
-    apply(plugin: 'java')
-    apply(plugin: 'maven')
-    apply(plugin: 'cuba')
-
-    appModuleType = 'web-themes'
-
-    buildDir = file('../build/scss-themes')
-
-    sourceSets {
-        main {
-            java {
-                srcDir '.'
-            }
-            resources {
-                srcDir '.'
-            }
-        }
     }
 }
 
