@@ -18,12 +18,11 @@ package com.company.sample.gui.user;
 
 import com.company.sample.entity.UserExt;
 import com.haulmont.cuba.core.entity.FileDescriptor;
+import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.FileStorageException;
+import com.haulmont.cuba.core.global.LoadContext;
 import com.haulmont.cuba.gui.app.security.user.edit.UserEditor;
-import com.haulmont.cuba.gui.components.Embedded;
-import com.haulmont.cuba.gui.components.FileUploadField;
-import com.haulmont.cuba.gui.export.FileDataProvider;
-import com.haulmont.cuba.gui.export.ResourceDataProvider;
+import com.haulmont.cuba.gui.components.*;
 import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 
 import javax.inject.Inject;
@@ -38,7 +37,12 @@ public class UserExtEditor extends UserEditor {
     private FileUploadingAPI fileUploadingAPI;
 
     @Inject
-    private Embedded userImage;
+    private DataManager dataManager;
+
+    @Inject
+    private Image userImage;
+
+    private static final String DEFAULT_IMAGE_NAME = "default-avatar.jpg";
 
     @Override
     public void init(Map<String, Object> params) {
@@ -51,10 +55,7 @@ public class UserExtEditor extends UserEditor {
             }
 
             FileDescriptor committedImage = dataSupplier.commit(fd);
-            ((UserExt) getItem()).setImage(committedImage);
-
-            FileDataProvider dataProvider = new FileDataProvider(committedImage);
-            userImage.setSource(committedImage.getId() + "." + committedImage.getExtension(), dataProvider);
+            userImage.setSource(FileDescriptorResource.class).setFileDescriptor(committedImage);
 
             showNotification(formatMessage(getMessage("uploadSuccessMessage"), userImageUpload.getFileName()),
                     NotificationType.HUMANIZED);
@@ -64,17 +65,23 @@ public class UserExtEditor extends UserEditor {
     }
 
     @Override
+    protected boolean preCommit() {
+        FileDescriptor descriptor = ((FileDescriptorResource) userImage.getSource()).getFileDescriptor();
+        ((UserExt) getItem()).setImage(descriptor);
+        return super.preCommit();
+    }
+
+    @Override
     protected void postInit() {
         super.postInit();
 
         FileDescriptor userImageFile = ((UserExt) getItem()).getImage();
-
         if (userImageFile == null) {
-            ResourceDataProvider dataProvider = new ResourceDataProvider(UserExtBrowser.DEFAULT_USER_IMAGE_PATH);
-            userImage.setSource(UserExtBrowser.DEFAULT_USER_IMAGE_NAME, dataProvider);
-        } else {
-            FileDataProvider dataProvider = new FileDataProvider(userImageFile);
-            userImage.setSource(userImageFile.getId() + "." + userImageFile.getExtension(), dataProvider);
+            LoadContext<FileDescriptor> loadContext = LoadContext.create(FileDescriptor.class)
+                    .setQuery(LoadContext.createQuery("select e from sys$FileDescriptor e where e.name = :name")
+                            .setParameter("name", DEFAULT_IMAGE_NAME));
+            userImageFile = dataManager.load(loadContext);
         }
+        userImage.setSource(FileDescriptorResource.class).setFileDescriptor(userImageFile);
     }
 }

@@ -31,10 +31,10 @@
                               width="AUTO">
                             <groupBox id="userImageBox"
                                       caption="msg://userImage">
-                                <embedded id="userImage"
-                                          height="250px"
-                                          type="IMAGE"
-                                          width="250px"/>
+                                <image id="userImage"
+                                       height="250px"
+                                       scaleMode="CONTAIN"
+                                       width="250px"/>
                             </groupBox>
                             <upload id="userImageUpload"
                                     align="MIDDLE_CENTER"/>
