@@ -17,7 +17,7 @@ To see the example in action, do the following:
 * Open *Administration > Users*, edit or create a user and set a picture for it.
 * Open *Application > Tasks*, create a task and select an assignee for it from the list of users.
 
-Based on CUBA Platform 6.9.1
+Based on CUBA Platform 6.10.1
 
 ## Issues
 Please use https://www.cuba-platform.com/discuss for discussion, support, and reporting problems coressponding to this sample.
